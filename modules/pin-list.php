@@ -2,6 +2,7 @@
 namespace JoshEllis\Pins\PinList;
 
 use JoshEllis\Pins\Caching;
+use JoshEllis\Pins\ApiRequest;
 
 function pinterest_feed_list($access_token, $options = []){
   if (!isset($options['pins'])) { $options['pins'] = 25; }
@@ -9,8 +10,8 @@ function pinterest_feed_list($access_token, $options = []){
   if (!isset($options['img_size'])) { $options['img_size'] = NULL; }
   if (!isset($options['background_image'])) { $options['background_image'] = FALSE; }
   if (!isset($options['note'])) { $options['note'] = TRUE; }
-  $object = Caching\json_cached_api_results($access_token);
-  $data = $object->data;
+  $response = Caching\api_response_cache($access_token);
+  $data = $response->data;
   $html = '<ul id="pinterest-feed-list" class="pinterest-feed-list">';
   foreach ($data as $key => $pin) {
     $img_src = $pin->image->original->url;
